@@ -1,0 +1,84 @@
+{
+    "projects": [
+        {
+            "name": "My Project",
+            "description": "My Project Description",
+            "version": "1.0.0",
+            "license": "MIT",
+            "author": "My Name",
+            "path": "C:\\Users\\simon\\OneDrive\\Skrivbord\\Projects\\test\\proj 1"
+        },
+        {
+            "name": "My Project 2",
+            "description": "My Project Description 2",
+            "version": "1.0.0",
+            "license": "MIT",
+            "author": "My Name",
+            "path": "C:\\Users\\simon\\OneDrive\\Skrivbord\\Projects\\test\\proj 2"
+        },
+        {
+            "name": "My Project 3",
+            "description": "My Project Description 3",
+            "version": "1.0.0",
+            "license": "MIT",
+            "author": "My Name",
+            "path": "C:\\Users\\simon\\OneDrive\\Skrivbord\\Projects\\test\\proj 3"
+        },
+        {
+            "name": "My Project 4",
+            "description": "My Project Description 4",
+            "version": "1.0.0",
+            "license": "MIT",
+            "author": "My Name",
+            "path": "C:\\Users\\simon\\OneDrive\\Skrivbord\\Projects\\test\\proj 4"
+        },
+        {
+            "name": "My Project 5",
+            "description": "My Project Description 5",
+            "version": "1.0.0",
+            "license": "MIT",
+            "author": "My Name",
+            "path": "C:\\Users\\simon\\OneDrive\\Skrivbord\\Projects\\test\\proj 5"
+        },
+        {
+            "name": "My Project 6",
+            "description": "My Project Description 6",
+            "version": "1.0.0",
+            "license": "MIT",
+            "author": "My Name",
+            "path": "C:\\Users\\simon\\OneDrive\\Skrivbord\\Projects\\test\\proj 6"
+        },
+        {
+            "name": "My Project 7",
+            "description": "My Project Description 7",
+            "version": "1.0.0",
+            "license": "MIT",
+            "author": "My Name",
+            "path": "C:\\Users\\simon\\OneDrive\\Skrivbord\\Projects\\test\\proj 7"
+        },
+        {
+            "name": "My Project 8",
+            "description": "My Project Description 8",
+            "version": "1.0.0",
+            "license": "MIT",
+            "author": "My Name",
+            "path": "C:\\Users\\simon\\OneDrive\\Skrivbord\\Projects\\test\\proj 8"
+        },
+        {
+            "name": "My Project 9",
+            "description": "My Project Description 9",
+            "version": "1.0.0",
+            "license": "MIT",
+            "author": "My Name",
+            "path": "C:\\Users\\simon\\OneDrive\\Skrivbord\\Projects\\test\\proj 9"
+        },
+        {
+            "name": "My Project 10",
+            "description": "My Project Description 10",
+            "version": "1.0.0",
+            "license": "MIT",
+            "author": "My Name",
+            "path": "C:\\Users\\simon\\OneDrive\\Skrivbord\\Projects\\test\\proj 10"
+        }
+    ]
+}
