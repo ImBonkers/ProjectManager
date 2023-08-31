@@ -11,7 +11,7 @@ Future<void> main() async {
     key: mainKey,
     initialRoute: '/home',
     routes: {
-      '/home': (context) => Search(),
+      '/home': (context) => Home(),
     },
   );
 
