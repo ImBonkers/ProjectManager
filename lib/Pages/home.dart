@@ -16,7 +16,11 @@ class Home extends StatefulWidget {
 class _HomeState extends State<Home> {
   var projectsList = [];
 
+  var choosenProject = {};
+
   double screenPortion = 0.6;
+
+  var _controller = TextEditingController();
 
   Future<List> getConfig() async {
     WidgetsFlutterBinding.ensureInitialized();
@@ -39,6 +43,8 @@ class _HomeState extends State<Home> {
     getConfig();
   }
 
+  
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -48,48 +54,133 @@ class _HomeState extends State<Home> {
           children: [
               
             Container(
+              color: Colors.grey[100],
+              width: ( choosenProject.length == 0 ? MediaQuery.of(context).size.width : MediaQuery.of(context).size.width*(screenPortion)),
+              height: MediaQuery.of(context).size.height,
 
-              child: ListView.builder(
-                shrinkWrap: true,
-                itemCount: projectsList.length,
-                itemBuilder: (context, index){
-                  return Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 1.0, horizontal: 4.0),
-                    child: ProjectCard(
-                      projectName: projectsList[index]['name'], 
-                      isTappedOn: () {
-                        print('ÖÖÖÖ');
+              child: Column(
+                children: [
+                  const Padding(
+                    padding: EdgeInsets.all(8.0),
+                    child: Text(
+                      'Projects',
+                      style: TextStyle(
+                        fontSize: 30,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ),
+
+
+                  Padding(
+                    padding: const EdgeInsets.fromLTRB(20, 20, 20, 20),
+                    child: TextField(
+                      controller: _controller,
+                      onChanged: (value) {
+                        setState(() {
+                          print('press');
+                        });
+                      },
+                      cursorColor: Colors.black,
+                      keyboardType: TextInputType.text,
+                      style: TextStyle(fontSize: 30.0, color: Colors.black),
+                      decoration: InputDecoration(
+                        prefixIcon: Icon(Icons.search, color: Colors.black),
+                        // label: Text('Search', style: TextStyle(color: Colors.white),),
+                        filled: true,
+                        iconColor: Colors.red,
+                        fillColor: Colors.white,
+                        border: OutlineInputBorder(
+                            borderSide: BorderSide.none,
+                            borderRadius: BorderRadius.circular(50)),
+                        hintText: 'Search',
+                        hintStyle: TextStyle(
+                          color: Colors.black,
+                        ),
+                      )
+                    ),
+                  ),
+
+                  Expanded(
+                    child: ListView.builder(
+                      itemCount: projectsList.length,
+                      itemBuilder: (context, index){
+                        return Padding(
+                          padding: const EdgeInsets.symmetric(vertical: 1.0, horizontal: 4.0),
+                          child: ProjectCard(
+                            projectName: projectsList[index]['name'], 
+                            isTappedOn: () {
+                              setState(() {
+                                choosenProject = projectsList[index];
+                                print(choosenProject.toString());
+                              });
+                            },
+                          ),
+                        );
                       },
                     ),
-                  );
-                },
+                  ),
+                ],
               ),
-
-              color: Colors.grey,
-              width: MediaQuery.of(context).size.width*screenPortion,
-              height: MediaQuery.of(context).size.height,
             ),
 
             Container(
-              color: Colors.blue,
-              width: MediaQuery.of(context).size.width*(1-screenPortion),
+              // color: Colors.grey[200],
+              width: (choosenProject.length == 0 ? 0 : MediaQuery.of(context).size.width*(1-screenPortion)),
               height: MediaQuery.of(context).size.height,
+              color: Colors.grey[100],
+              
+
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Container(
+
+                  decoration: BoxDecoration(
+                    color: Colors.grey[200]!,
+                    borderRadius: BorderRadius.all(
+                      Radius.circular(20),
+                    ),
+                    border: Border.all(
+                      color: Colors.grey[300]!,
+                      width: 1,
+                    ),
+                  ),
+              
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        TextButton.icon(
+                          onPressed: () => setState(() {
+                            choosenProject = {};
+                          }), 
+                          icon: Icon(
+                            Icons.close,
+                            color: Colors.black,
+                            size: 40,
+                          ), 
+                          label: Text(
+                            'Close Project',
+                            style: TextStyle(
+                              color: Colors.black,
+                            ),
+                            )
+                        ),
+                        SizedBox(
+                          height: 50,
+                        ),
+                        Expanded(child: ProjectInformation(choosenProject: choosenProject,)),
+                      ],
+                    ),
+                  ),
+                ),
+              )
+
             ),
           ],
         )
-
-        // child: FutureBuilder(
-        //   future: getConfig(), 
-        //   builder: (context, snapshot) {
-        //     if (snapshot.hasData) {
-        //       print(snapshot.data.toString());
-        //       return Text(snapshot.data.toString());
-        //     } else if (snapshot.hasError) {
-        //       return Text("${snapshot.error}");
-        //     }
-        //     return CircularProgressIndicator();
-        //   }
-        // )
         
       ),
     );

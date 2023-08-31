@@ -53,3 +53,40 @@ class _ProjectCardState extends State<ProjectCard> {
     );
   }
 }
+
+class ProjectInformation extends StatefulWidget {
+  var choosenProject = {};
+  ProjectInformation({required this.choosenProject, key});
+
+  @override
+  State<ProjectInformation> createState() => _ProjectInformationState();
+}
+
+class _ProjectInformationState extends State<ProjectInformation> {
+  var projectVariables = [
+    'name',
+    'description',
+    'version',
+    'license',
+    'author',
+    'path',
+  ];
+
+  @override
+  Widget build(BuildContext context) {
+    return ListView.builder(
+      itemCount: widget.choosenProject.length,
+      itemBuilder: (context, index){
+        return Center(
+          child: Text(
+            widget.choosenProject[projectVariables[index]],
+            style: TextStyle(
+              fontSize: 20,
+              color: Colors.black,
+            ),
+          )
+        );
+      },
+    );
+  }
+}
