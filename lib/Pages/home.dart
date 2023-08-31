@@ -5,6 +5,7 @@
 import 'package:flutter/material.dart';
 import 'package:project_manager/classes.dart';
 import 'package:project_manager/classes.dart';
+import 'package:project_manager/search/search_main.dart';
 
 class Home extends StatefulWidget {
   const Home({super.key});
@@ -76,31 +77,34 @@ class _HomeState extends State<Home> {
 
                   Padding(
                     padding: const EdgeInsets.fromLTRB(20, 20, 20, 20),
-                    child: TextField(
-                      controller: _controller,
-                      onChanged: (value) {
-                        setState(() {
-                          print('press');
-                        });
-                      },
-                      cursorColor: Colors.black,
-                      keyboardType: TextInputType.text,
-                      style: TextStyle(fontSize: 30.0, color: Colors.black),
-                      decoration: InputDecoration(
-                        prefixIcon: Icon(Icons.search, color: Colors.black),
-                        // label: Text('Search', style: TextStyle(color: Colors.white),),
-                        filled: true,
-                        iconColor: Colors.red,
-                        fillColor: Colors.white,
-                        border: OutlineInputBorder(
-                            borderSide: BorderSide.none,
-                            borderRadius: BorderRadius.circular(50)),
-                        hintText: 'Search',
-                        hintStyle: TextStyle(
-                          color: Colors.black,
-                        ),
-                      )
-                    ),
+                    child: Search(),
+
+                    // child: TextField(
+                    //   controller: _controller,
+                    //   onChanged: (value) {
+                    //     setState(() {
+                    //       print('press');
+                    //     });
+                    //   },
+                    //   cursorColor: Colors.black,
+                    //   keyboardType: TextInputType.text,
+                    //   style: TextStyle(fontSize: 30.0, color: Colors.black),
+                    
+                      // decoration: InputDecoration(
+                      //   prefixIcon: Icon(Icons.search, color: Colors.black),
+                      //   // label: Text('Search', style: TextStyle(color: Colors.white),),
+                      //   filled: true,
+                      //   iconColor: Colors.red,
+                      //   fillColor: Colors.white,
+                      //   border: OutlineInputBorder(
+                      //       borderSide: BorderSide.none,
+                      //       borderRadius: BorderRadius.circular(50)),
+                      //   hintText: 'Search',
+                      //   hintStyle: TextStyle(
+                      //     color: Colors.black,
+                      //   ),
+                      // )
+                    // ),
                   ),
 
                   Expanded(

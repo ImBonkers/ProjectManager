@@ -28,14 +28,14 @@ class _TagManagerState extends State<TagManager> {
   }
 }
 
-class Search extends StatefulWidget {
-  const Search({super.key});
+class SearchBar extends StatefulWidget {
+  const SearchBar({super.key});
 
   @override
-  State<Search> createState() => _SearchState();
+  State<SearchBar> createState() => _SearchBarState();
 }
 
-class _SearchState extends State<Search> {
+class _SearchBarState extends State<SearchBar> {
   final TextEditingController _controller = TextEditingController();
   TagManager tagManager = TagManager();
 
@@ -72,30 +72,40 @@ class _SearchState extends State<Search> {
 
         _controller.clear();
       }
+      
     });
   }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Column(
+    return Column(
         children: [
           Container(
             margin: const EdgeInsets.only(left: 100, right: 100),
             child: TextField(
               controller: _controller,
+              cursorColor: Colors.black,
               decoration: InputDecoration(
-                  hintText: 'Search',
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(10),
-                  )),
+                prefixIcon: Icon(Icons.search, color: Colors.black),
+                // label: Text('Search', style: TextStyle(color: Colors.white),),
+                filled: true,
+                hoverColor: Colors.white,
+                iconColor: Colors.red,
+                fillColor: Colors.white ,
+                border: OutlineInputBorder(
+                    borderSide: BorderSide.none,
+                    borderRadius: BorderRadius.circular(50)),
+                hintText: 'Search',
+                hintStyle: TextStyle(
+                  color: Colors.black,
+                ),
+              )
             ),
           ),
           Container(
               margin: const EdgeInsets.only(left: 100, right: 100),
               child: tagManager),
         ],
-      ),
     );
   }
 }
