@@ -12,22 +12,18 @@ class TagManager extends StatefulWidget {
 class _TagManagerState extends State<TagManager> {
   @override
   Widget build(BuildContext context) {
-    dev.log("Tags: ${widget.tags}");
-    return SizedBox(
-      width: MediaQuery.of(context).size.width - 200,
-      child: Flex(
-        direction: Axis.horizontal,
-        mainAxisSize: MainAxisSize.max,
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: List.generate(widget.tags.length, (index) {
-          return Card(
-            child: Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Text(widget.tags[index]),
-            ),
-          );
-        }),
-      ),
+    var tags = List.from(Set.from(widget.tags));
+    return Wrap(
+      direction: Axis.horizontal,
+      alignment: WrapAlignment.center,
+      children: List.generate(tags.length, (index) {
+        return Card(
+          child: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Text(tags[index]),
+          ),
+        );
+      }),
     );
   }
 }
