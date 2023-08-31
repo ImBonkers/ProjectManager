@@ -22,6 +22,8 @@ class _HomeState extends State<Home> {
 
   var _controller = TextEditingController();
 
+  int colorIndex = 100;
+
   Future<List> getConfig() async {
     WidgetsFlutterBinding.ensureInitialized();
     var projectsJSON = await Config.generalSettings;
@@ -54,7 +56,7 @@ class _HomeState extends State<Home> {
           children: [
               
             Container(
-              color: Colors.grey[100],
+              color: Colors.grey[colorIndex],
               width: ( choosenProject.length == 0 ? MediaQuery.of(context).size.width : MediaQuery.of(context).size.width*(screenPortion)),
               height: MediaQuery.of(context).size.height,
 
@@ -128,7 +130,7 @@ class _HomeState extends State<Home> {
               // color: Colors.grey[200],
               width: (choosenProject.length == 0 ? 0 : MediaQuery.of(context).size.width*(1-screenPortion)),
               height: MediaQuery.of(context).size.height,
-              color: Colors.grey[100],
+              color: Colors.grey[colorIndex],
               
 
               child: Padding(
@@ -136,12 +138,12 @@ class _HomeState extends State<Home> {
                 child: Container(
 
                   decoration: BoxDecoration(
-                    color: Colors.grey[200]!,
+                    color: Colors.grey[colorIndex*2]!,
                     borderRadius: BorderRadius.all(
                       Radius.circular(20),
                     ),
                     border: Border.all(
-                      color: Colors.grey[300]!,
+                      color: Colors.grey[colorIndex*2]!,
                       width: 1,
                     ),
                   ),

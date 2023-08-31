@@ -1,6 +1,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:project_manager/Pages/home.dart';
+import 'package:project_manager/Search/search_main.dart';
 
 Future<void> main() async {
 
@@ -10,7 +11,7 @@ Future<void> main() async {
     key: mainKey,
     initialRoute: '/home',
     routes: {
-      '/home': (context) => Home(),
+      '/home': (context) => Search(),
     },
   );
 
