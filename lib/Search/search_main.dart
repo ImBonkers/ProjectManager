@@ -12,15 +12,14 @@ class TagManager extends StatefulWidget {
 class _TagManagerState extends State<TagManager> {
   @override
   Widget build(BuildContext context) {
-    var tags = List.from(Set.from(widget.tags));
     return Wrap(
       direction: Axis.horizontal,
       alignment: WrapAlignment.center,
-      children: List.generate(tags.length, (index) {
+      children: List.generate(widget.tags.length, (index) {
         return Card(
           child: Padding(
             padding: const EdgeInsets.all(8.0),
-            child: Text(tags[index]),
+            child: Text(widget.tags[index]),
           ),
         );
       }),
@@ -39,7 +38,7 @@ class _SearchState extends State<Search> {
   final TextEditingController _controller = TextEditingController();
   TagManager tagManager = TagManager();
 
-  final List<String> tags = [
+  final Set<String> tags = {
     "asd",
     "asd",
     "asd",
@@ -47,13 +46,13 @@ class _SearchState extends State<Search> {
     "asd",
     "asd",
     "asd",
-  ];
+  };
 
   @override
   void initState() {
     super.initState();
 
-    tagManager = TagManager(tags: tags);
+    tagManager = TagManager(tags: List.from(tags));
 
     _controller.addListener(() {
       if (_controller.text.length == 0) return;
@@ -64,7 +63,7 @@ class _SearchState extends State<Search> {
 
         setState(() {
           tags.add(text);
-          tagManager = TagManager(tags: tags);
+          tagManager = TagManager(tags: List.from(tags));
         });
 
         dev.log("Tag: $text");
