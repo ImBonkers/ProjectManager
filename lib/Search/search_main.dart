@@ -15,10 +15,9 @@ class _TagManagerState extends State<TagManager> {
     dev.log("Tags: ${widget.tags}");
     return SizedBox(
       width: MediaQuery.of(context).size.width - 200,
-      child: Flex(
+      child: Wrap(
         direction: Axis.horizontal,
-        mainAxisSize: MainAxisSize.max,
-        mainAxisAlignment: MainAxisAlignment.center,
+        alignment: WrapAlignment.center,
         children: List.generate(widget.tags.length, (index) {
           return Card(
             child: Padding(
