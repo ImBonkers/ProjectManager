@@ -27,14 +27,14 @@ class _TagManagerState extends State<TagManager> {
   }
 }
 
-class SearchBar extends StatefulWidget {
-  const SearchBar({super.key});
+class SearchTagBar extends StatefulWidget {
+  const SearchTagBar({super.key});
 
   @override
-  State<SearchBar> createState() => _SearchBarState();
+  State<SearchTagBar> createState() => _SearchTagBarState();
 }
 
-class _SearchBarState extends State<SearchBar> {
+class _SearchTagBarState extends State<SearchTagBar> {
   final TextEditingController _controller = TextEditingController();
   TagManager tagManager = TagManager();
 
@@ -47,6 +47,10 @@ class _SearchBarState extends State<SearchBar> {
     "asd",
     "asd",
   };
+
+  void handleArrowKeyPress(keyEvent) {
+    dev.log("Key event: $keyEvent");
+  }
 
   @override
   void initState() {
@@ -71,40 +75,42 @@ class _SearchBarState extends State<SearchBar> {
 
         _controller.clear();
       }
-      
     });
   }
 
   @override
   Widget build(BuildContext context) {
     return Column(
-        children: [
-          Container(
-            margin: const EdgeInsets.only(left: 100, right: 100),
+      children: [
+        Container(
+          margin: const EdgeInsets.only(left: 100, right: 100),
+          child: KeyboardListener(
+            focusNode: FocusNode(),
+            onKeyEvent: handleArrowKeyPress,
             child: TextField(
-              controller: _controller,
-              cursorColor: Colors.black,
-              decoration: InputDecoration(
-                prefixIcon: Icon(Icons.search, color: Colors.black),
-                // label: Text('Search', style: TextStyle(color: Colors.white),),
-                filled: true,
-                hoverColor: Colors.white,
-                iconColor: Colors.red,
-                fillColor: Colors.white ,
-                border: OutlineInputBorder(
-                    borderSide: BorderSide.none,
-                    borderRadius: BorderRadius.circular(50)),
-                hintText: 'Search',
-                hintStyle: TextStyle(
-                  color: Colors.black,
-                ),
-              )
-            ),
+                controller: _controller,
+                cursorColor: Colors.black,
+                decoration: InputDecoration(
+                  prefixIcon: Icon(Icons.search, color: Colors.black),
+                  // label: Text('Search', style: TextStyle(color: Colors.white),),
+                  filled: true,
+                  hoverColor: Colors.white,
+                  iconColor: Colors.red,
+                  fillColor: Colors.white,
+                  border: OutlineInputBorder(
+                      borderSide: BorderSide.none,
+                      borderRadius: BorderRadius.circular(50)),
+                  hintText: 'Search',
+                  hintStyle: TextStyle(
+                    color: Colors.black,
+                  ),
+                )),
           ),
-          Container(
-              margin: const EdgeInsets.only(left: 100, right: 100),
-              child: tagManager),
-        ],
+        ),
+        Container(
+            margin: const EdgeInsets.only(left: 100, right: 100),
+            child: tagManager),
+      ],
     );
   }
 }

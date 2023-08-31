@@ -1,11 +1,8 @@
-
-
 // ignore_for_file: unnecessary_null_comparison
 
 import 'package:flutter/material.dart';
 import 'package:project_manager/classes.dart';
-import 'package:project_manager/classes.dart';
-import 'package:project_manager/search/search_main.dart';
+import 'package:project_manager/Search/search_main.dart';
 
 class Home extends StatefulWidget {
   const Home({super.key});
@@ -38,7 +35,6 @@ class _HomeState extends State<Home> {
     return projectsList;
   }
 
-
   @override
   void initState() {
     // TODO: implement initState
@@ -46,112 +42,105 @@ class _HomeState extends State<Home> {
     getConfig();
   }
 
-  
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Center(
-        child : Row(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: [
-              
-            Container(
-              color: Colors.grey[colorIndex],
-              width: ( choosenProject.length == 0 ? MediaQuery.of(context).size.width : MediaQuery.of(context).size.width*(screenPortion)),
-              height: MediaQuery.of(context).size.height,
-
-              child: Column(
-                children: [
-                  const Padding(
-                    padding: EdgeInsets.all(8.0),
-                    child: Text(
-                      'Projects',
-                      style: TextStyle(
-                        fontSize: 30,
-                        fontWeight: FontWeight.bold,
-                      ),
+          child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        children: [
+          Container(
+            color: Colors.grey[colorIndex],
+            width: (choosenProject.length == 0
+                ? MediaQuery.of(context).size.width
+                : MediaQuery.of(context).size.width * (screenPortion)),
+            height: MediaQuery.of(context).size.height,
+            child: Column(
+              children: [
+                const Padding(
+                  padding: EdgeInsets.all(8.0),
+                  child: Text(
+                    'Projects',
+                    style: TextStyle(
+                      fontSize: 30,
+                      fontWeight: FontWeight.bold,
                     ),
                   ),
+                ),
+                const Padding(
+                  padding: EdgeInsets.fromLTRB(20, 20, 20, 20),
+                  child: SearchTagBar(),
 
+                  // child: TextField(
+                  //   controller: _controller,
+                  //   onChanged: (value) {
+                  //     setState(() {
+                  //       print('press');
+                  //     });
+                  //   },
+                  //   cursorColor: Colors.black,
+                  //   keyboardType: TextInputType.text,
+                  //   style: TextStyle(fontSize: 30.0, color: Colors.black),
 
-                  Padding(
-                    padding: const EdgeInsets.fromLTRB(20, 20, 20, 20),
-                    child: Search(),
-
-                    // child: TextField(
-                    //   controller: _controller,
-                    //   onChanged: (value) {
-                    //     setState(() {
-                    //       print('press');
-                    //     });
-                    //   },
-                    //   cursorColor: Colors.black,
-                    //   keyboardType: TextInputType.text,
-                    //   style: TextStyle(fontSize: 30.0, color: Colors.black),
-                    
-                      // decoration: InputDecoration(
-                      //   prefixIcon: Icon(Icons.search, color: Colors.black),
-                      //   // label: Text('Search', style: TextStyle(color: Colors.white),),
-                      //   filled: true,
-                      //   iconColor: Colors.red,
-                      //   fillColor: Colors.white,
-                      //   border: OutlineInputBorder(
-                      //       borderSide: BorderSide.none,
-                      //       borderRadius: BorderRadius.circular(50)),
-                      //   hintText: 'Search',
-                      //   hintStyle: TextStyle(
-                      //     color: Colors.black,
-                      //   ),
-                      // )
-                    // ),
+                  // decoration: InputDecoration(
+                  //   prefixIcon: Icon(Icons.search, color: Colors.black),
+                  //   // label: Text('Search', style: TextStyle(color: Colors.white),),
+                  //   filled: true,
+                  //   iconColor: Colors.red,
+                  //   fillColor: Colors.white,
+                  //   border: OutlineInputBorder(
+                  //       borderSide: BorderSide.none,
+                  //       borderRadius: BorderRadius.circular(50)),
+                  //   hintText: 'Search',
+                  //   hintStyle: TextStyle(
+                  //     color: Colors.black,
+                  //   ),
+                  // )
+                  // ),
+                ),
+                Expanded(
+                  child: ListView.builder(
+                    itemCount: projectsList.length,
+                    itemBuilder: (context, index) {
+                      return Padding(
+                        padding: const EdgeInsets.symmetric(
+                            vertical: 1.0, horizontal: 4.0),
+                        child: ProjectCard(
+                          projectName: projectsList[index]['name'],
+                          isTappedOn: () {
+                            setState(() {
+                              choosenProject = projectsList[index];
+                              print(choosenProject.toString());
+                            });
+                          },
+                        ),
+                      );
+                    },
                   ),
-
-                  Expanded(
-                    child: ListView.builder(
-                      itemCount: projectsList.length,
-                      itemBuilder: (context, index){
-                        return Padding(
-                          padding: const EdgeInsets.symmetric(vertical: 1.0, horizontal: 4.0),
-                          child: ProjectCard(
-                            projectName: projectsList[index]['name'], 
-                            isTappedOn: () {
-                              setState(() {
-                                choosenProject = projectsList[index];
-                                print(choosenProject.toString());
-                              });
-                            },
-                          ),
-                        );
-                      },
-                    ),
-                  ),
-                ],
-              ),
+                ),
+              ],
             ),
-
-            Container(
+          ),
+          Container(
               // color: Colors.grey[200],
-              width: (choosenProject.length == 0 ? 0 : MediaQuery.of(context).size.width*(1-screenPortion)),
+              width: (choosenProject.length == 0
+                  ? 0
+                  : MediaQuery.of(context).size.width * (1 - screenPortion)),
               height: MediaQuery.of(context).size.height,
               color: Colors.grey[colorIndex],
-              
-
               child: Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: Container(
-
                   decoration: BoxDecoration(
-                    color: Colors.grey[colorIndex*2]!,
+                    color: Colors.grey[colorIndex * 2]!,
                     borderRadius: BorderRadius.all(
                       Radius.circular(20),
                     ),
                     border: Border.all(
-                      color: Colors.grey[colorIndex*2]!,
+                      color: Colors.grey[colorIndex * 2]!,
                       width: 1,
                     ),
                   ),
-              
                   child: Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: Column(
@@ -159,36 +148,34 @@ class _HomeState extends State<Home> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         TextButton.icon(
-                          onPressed: () => setState(() {
-                            choosenProject = {};
-                          }), 
-                          icon: Icon(
-                            Icons.close,
-                            color: Colors.black,
-                            size: 40,
-                          ), 
-                          label: Text(
-                            'Close Project',
-                            style: TextStyle(
+                            onPressed: () => setState(() {
+                                  choosenProject = {};
+                                }),
+                            icon: Icon(
+                              Icons.close,
                               color: Colors.black,
+                              size: 40,
                             ),
-                            )
-                        ),
+                            label: Text(
+                              'Close Project',
+                              style: TextStyle(
+                                color: Colors.black,
+                              ),
+                            )),
                         SizedBox(
                           height: 50,
                         ),
-                        Expanded(child: ProjectInformation(choosenProject: choosenProject,)),
+                        Expanded(
+                            child: ProjectInformation(
+                          choosenProject: choosenProject,
+                        )),
                       ],
                     ),
                   ),
                 ),
-              )
-
-            ),
-          ],
-        )
-        
-      ),
+              )),
+        ],
+      )),
     );
   }
 }
