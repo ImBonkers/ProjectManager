@@ -1,6 +1,6 @@
-# project_manager
+# Project Manager
 
-A new Flutter project.
+A general purpose project manager for programming.
 
 ## Getting Started
 
