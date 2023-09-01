@@ -18,7 +18,7 @@ class Config {
 }
 
 // child: FutureBuilder(
-//   future: getConfig(), 
+//   future: getConfig(),
 //   builder: (context, snapshot) {
 //     if (snapshot.hasData) {
 //       print(snapshot.data.toString());
@@ -29,7 +29,6 @@ class Config {
 //     return CircularProgressIndicator();
 //   }
 // )
-
 
 class ShowCard extends StatefulWidget {
 
@@ -149,15 +148,16 @@ class _ListProjectInformationState extends State<ListProjectInformation> {
     return ListView.builder(
       itemCount: widget.choosenProject.length,
       itemBuilder: (context, index){
-        return TextCard(
-          margin: 2,
-          elevation: 2,
-          text: widget.choosenProject[projectVariables[index]], 
-          isTappedOn: () => changedValues(),
+        return Center(
+          child: Text(
+            widget.choosenProject[projectVariables[index]],
+            style: TextStyle(
+              fontSize: 20,
+              color: Colors.black,
+            ),
+          )
         );
       },
     );
   }
 }
-
-
