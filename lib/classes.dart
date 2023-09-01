@@ -18,7 +18,7 @@ class Config {
 }
 
 // child: FutureBuilder(
-//   future: getConfig(), 
+//   future: getConfig(),
 //   builder: (context, snapshot) {
 //     if (snapshot.hasData) {
 //       print(snapshot.data.toString());
@@ -30,9 +30,7 @@ class Config {
 //   }
 // )
 
-
 class ProjectCard extends StatefulWidget {
-
   String projectName = "";
   Function() isTappedOn;
   ProjectCard({required this.projectName, required this.isTappedOn, super.key});
@@ -76,16 +74,15 @@ class _ProjectInformationState extends State<ProjectInformation> {
   Widget build(BuildContext context) {
     return ListView.builder(
       itemCount: widget.choosenProject.length,
-      itemBuilder: (context, index){
+      itemBuilder: (context, index) {
         return Center(
-          child: Text(
-            widget.choosenProject[projectVariables[index]],
-            style: TextStyle(
-              fontSize: 20,
-              color: Colors.black,
-            ),
-          )
-        );
+            child: Text(
+          widget.choosenProject[projectVariables[index]],
+          style: TextStyle(
+            fontSize: 20,
+            color: Colors.black,
+          ),
+        ));
       },
     );
   }

@@ -1,5 +1,7 @@
 import 'dart:developer' as dev;
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:ordered_set/ordered_set.dart';
 
 class TagManager extends StatefulWidget {
   TagManager({super.key, this.tags = const []});
@@ -38,40 +40,48 @@ class _SearchTagBarState extends State<SearchTagBar> {
   final TextEditingController _controller = TextEditingController();
   TagManager tagManager = TagManager();
 
-  final Set<String> tags = {
-    "asd",
-    "asd",
-    "asd",
-    "asd",
-    "asd",
-    "asd",
-    "asd",
-  };
+  final OrderedSet<String> tags = OrderedSet<String>();
 
-  void handleArrowKeyPress(keyEvent) {
-    dev.log("Key event: $keyEvent");
+  void handleArrowKeyPress(KeyEvent event) {
+    if (event is! KeyDownEvent) {
+      return;
+    }
+
+    if (event.logicalKey == LogicalKeyboardKey.arrowRight) {
+      if (_controller.text.isEmpty && tags.isNotEmpty) {
+        var mostRecentTag = tags.last;
+
+        setState(() {
+          tags.remove(tags.last);
+          tagManager = TagManager(tags: List.from(tags));
+          _controller.text = mostRecentTag;
+          _controller.selection =
+              TextSelection.collapsed(offset: _controller.text.length);
+        });
+      }
+    }
   }
 
   @override
   void initState() {
     super.initState();
 
+    tags.add("asdasdasd");
+
     tagManager = TagManager(tags: List.from(tags));
 
     _controller.addListener(() {
-      if (_controller.text.length == 0) return;
-      var last_char = _controller.text[_controller.text.length - 1];
+      if (_controller.text.isEmpty) return;
+      var lastChar = _controller.text[_controller.text.length - 1];
 
-      if (last_char == ",") {
+      if (lastChar == ",") {
         var text = _controller.text.substring(0, _controller.text.length - 1);
 
         setState(() {
+          if (tags.contains(text)) return;
           tags.add(text);
           tagManager = TagManager(tags: List.from(tags));
         });
-
-        dev.log("Tag: $text");
-        // dev.log("Tags: $tags");
 
         _controller.clear();
       }
