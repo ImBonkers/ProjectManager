@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:project_manager/classes.dart';
 import 'package:project_manager/Search/search_main.dart';
 import 'package:project_manager/Pages/projectInformationPage.dart';
-
+import 'package:project_manager/settingClasses.dart';
 
 class Home extends StatefulWidget {
   const Home({super.key});
@@ -23,6 +23,8 @@ class _HomeState extends State<Home> {
   var _controller = TextEditingController();
 
   int colorIndex = 100;
+  int choosenIndex = -1;
+  
 
   Future<List> getConfig() async {
     WidgetsFlutterBinding.ensureInitialized();
@@ -32,6 +34,7 @@ class _HomeState extends State<Home> {
         projectsList = projectsJSON['projects'];
       });
     }
+    ProgramSettings.instance.allPerojects = projectsList;
     print(projectsList.toString());
     print(projectsList[1]['name']);
     return projectsList;
@@ -111,8 +114,10 @@ class _HomeState extends State<Home> {
                           Text: projectsList[index]['name'],
                           isTappedOn: () {
                             setState(() {
-                              choosenProject = projectsList[index];
-                              print(choosenProject.toString());
+                              choosenIndex = index;
+                              choosenProject = {};
+                              choosenProject = Map.of(projectsList[index]);
+                              // print(choosenProject.toString());
                             });
                           },
                         ),
@@ -134,6 +139,7 @@ class _HomeState extends State<Home> {
               padding: const EdgeInsets.all(8.0),
               child: ProjectInformationPage(
                 choosenProject: choosenProject,
+                choosenIndex: choosenIndex,
                 closeProject: () {
                   setState(() {
                     choosenProject = {};

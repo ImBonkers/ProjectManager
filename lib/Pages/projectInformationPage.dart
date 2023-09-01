@@ -4,7 +4,14 @@ import 'package:flutter/material.dart';
 class ProjectInformationPage extends StatefulWidget {
   Function() closeProject;
   var choosenProject;
-  ProjectInformationPage({required this.closeProject, required this.choosenProject, super.key});
+  var choosenIndex;
+
+  ProjectInformationPage({
+    required this.closeProject, 
+    required this.choosenIndex,
+    required this.choosenProject, 
+    super.key
+  });
 
 
   @override
@@ -60,8 +67,9 @@ class _ProjectInformationPageState extends State<ProjectInformationPage> {
               height: 50,
             ),
             Expanded(
-                child: ListProjectInformation(
-              choosenProject: widget.choosenProject,
+              child: ListProjectInformation(
+                choosenIndex: widget.choosenIndex,
+                choosenProject: widget.choosenProject,
             )),
           ],
         ),

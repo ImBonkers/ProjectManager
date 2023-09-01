@@ -10,7 +10,7 @@
         },
         {
             "name": "My Project 2",
-            "description": "Hello Bruch Nillson\nJag har en Kaka\n\nI min toa,\nuh\noh\n\nSkit\n\nskitta \nskrrr\n\nbrrra",
+            "description": "My Project Description 2",
             "version": "1.0.0",
             "license": "MIT",
             "author": "My Name",
@@ -42,8 +42,8 @@
         },
         {
             "name": "My Project 6",
-            "description": "My Project Descr",
-            "version": "1.0.",
+            "description": "My Project Description 6",
+            "version": "1.0.0",
             "license": "MIT",
             "author": "My Name",
             "path": "C:\\Users\\simon\\OneDrive\\Skrivbord\\Projects\\test\\proj 6"
