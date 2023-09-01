@@ -31,38 +31,103 @@ class Config {
 // )
 
 
-class ProjectCard extends StatefulWidget {
+class ShowCard extends StatefulWidget {
 
-  String projectName = "";
+  String Text = "";
   Function() isTappedOn;
-  ProjectCard({required this.projectName, required this.isTappedOn, super.key});
+  double? elevation = 0;
+  double? margin = 0;
+  ShowCard({required this.Text, required this.isTappedOn, super.key, this.elevation, this.margin});
 
   @override
-  State<ProjectCard> createState() => _ProjectCardState();
+  State<ShowCard> createState() => _ShowCardState();
 }
 
-class _ProjectCardState extends State<ProjectCard> {
+class _ShowCardState extends State<ShowCard> {
   @override
   Widget build(BuildContext context) {
     return Card(
-      margin: EdgeInsets.all(0),
+      elevation: widget.elevation,
+      shadowColor: Colors.black,
+      color: Colors.white,
+      margin: EdgeInsets.all(widget.margin ?? 0),
       child: ListTile(
         onTap: widget.isTappedOn,
-        title: Text(widget.projectName),
+        title: Text(widget.Text),
       ),
     );
   }
 }
 
-class ProjectInformation extends StatefulWidget {
-  var choosenProject = {};
-  ProjectInformation({required this.choosenProject, key});
+
+class TextCard extends StatefulWidget {
+
+  String text = "";
+  Function() isTappedOn;
+  double? elevation = 0;
+  double? margin = 0;
+  TextCard({required this.text, required this.isTappedOn, super.key, this.elevation, this.margin});
 
   @override
-  State<ProjectInformation> createState() => _ProjectInformationState();
+  State<TextCard> createState() => _TextCardState();
 }
 
-class _ProjectInformationState extends State<ProjectInformation> {
+class _TextCardState extends State<TextCard> {
+
+  final TextEditingController _controller = TextEditingController();
+  String text = widget.text;
+
+
+  static const paddingSize = 10.0;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    _controller.text = widget.text;
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    print('build');
+
+
+
+    return Card(
+      elevation: widget.elevation,
+      shadowColor: Colors.black,
+      color: Colors.white,
+      margin: EdgeInsets.all(widget.margin ?? 0),
+
+      child: Padding(
+        padding: const EdgeInsets.fromLTRB(paddingSize, 0, paddingSize, 0),
+
+        child: TextFormField(
+          controller: _controller,
+
+          onChanged: (value) => widget.isTappedOn(),
+
+          // initialValue: widget.Text,
+          cursorColor: Colors.black,
+          decoration: InputDecoration(
+            border: InputBorder.none,
+          ),
+        ),
+      )
+    );
+  }
+}
+
+
+class ListProjectInformation extends StatefulWidget {
+  var choosenProject = {};
+  ListProjectInformation({required this.choosenProject, key});
+
+  @override
+  State<ListProjectInformation> createState() => _ListProjectInformationState();
+}
+
+class _ListProjectInformationState extends State<ListProjectInformation> {
   var projectVariables = [
     'name',
     'description',
@@ -72,21 +137,27 @@ class _ProjectInformationState extends State<ProjectInformation> {
     'path',
   ];
 
+  void changedValues() {
+    setState(() {
+      print('changed');
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
+    print(widget.choosenProject);
     return ListView.builder(
       itemCount: widget.choosenProject.length,
       itemBuilder: (context, index){
-        return Center(
-          child: Text(
-            widget.choosenProject[projectVariables[index]],
-            style: TextStyle(
-              fontSize: 20,
-              color: Colors.black,
-            ),
-          )
+        return TextCard(
+          margin: 2,
+          elevation: 2,
+          text: widget.choosenProject[projectVariables[index]], 
+          isTappedOn: () => changedValues(),
         );
       },
     );
   }
 }
+
+
