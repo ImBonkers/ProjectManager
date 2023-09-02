@@ -30,7 +30,9 @@ class _TagManagerState extends State<TagManager> {
 }
 
 class SearchTagBar extends StatefulWidget {
-  const SearchTagBar({super.key});
+  SearchTagBar({super.key, this.onChanged});
+
+  Function(String, List<String>)? onChanged;
 
   @override
   State<SearchTagBar> createState() => _SearchTagBarState();
@@ -40,7 +42,7 @@ class _SearchTagBarState extends State<SearchTagBar> {
   final TextEditingController _controller = TextEditingController();
   TagManager tagManager = TagManager();
 
-  final OrderedSet<String> tags = OrderedSet<String>();
+  final List<String> tags = [];
 
   void handleArrowKeyPress(KeyEvent event) {
     if (event is! KeyDownEvent) {
@@ -54,10 +56,11 @@ class _SearchTagBarState extends State<SearchTagBar> {
         setState(() {
           tags.remove(tags.last);
           tagManager = TagManager(tags: List.from(tags));
-          _controller.text = mostRecentTag;
-          _controller.selection =
-              TextSelection.collapsed(offset: _controller.text.length);
         });
+
+        _controller.text = mostRecentTag;
+        _controller.selection =
+            TextSelection.collapsed(offset: _controller.text.length);
       }
     }
   }
@@ -66,24 +69,26 @@ class _SearchTagBarState extends State<SearchTagBar> {
   void initState() {
     super.initState();
 
-    tags.add("asdasdasd");
-
     tagManager = TagManager(tags: List.from(tags));
 
     _controller.addListener(() {
-      if (_controller.text.isEmpty) return;
-      var lastChar = _controller.text[_controller.text.length - 1];
+      if (_controller.text.isNotEmpty) {
+        var lastChar = _controller.text[_controller.text.length - 1];
 
-      if (lastChar == ",") {
-        var text = _controller.text.substring(0, _controller.text.length - 1);
+        if (lastChar == ",") {
+          var text = _controller.text.substring(0, _controller.text.length - 1);
 
-        setState(() {
-          if (tags.contains(text)) return;
-          tags.add(text);
-          tagManager = TagManager(tags: List.from(tags));
-        });
+          setState(() {
+            if (tags.contains(text)) return;
+            tags.add(text);
+            tagManager = TagManager(tags: List.from(tags));
+          });
 
-        _controller.clear();
+          _controller.clear();
+        }
+      }
+      if (widget.onChanged != null) {
+        widget.onChanged!(_controller.text, tags);
       }
     });
   }
@@ -93,7 +98,7 @@ class _SearchTagBarState extends State<SearchTagBar> {
     return Column(
       children: [
         Container(
-          margin: const EdgeInsets.only(left: 100, right: 100),
+          // margin: const EdgeInsets.only(left: 100, right: 100),
           child: KeyboardListener(
             focusNode: FocusNode(),
             onKeyEvent: handleArrowKeyPress,
@@ -118,7 +123,7 @@ class _SearchTagBarState extends State<SearchTagBar> {
           ),
         ),
         Container(
-            margin: const EdgeInsets.only(left: 100, right: 100),
+            // margin: const EdgeInsets.only(left: 100, right: 100),
             child: tagManager),
       ],
     );
