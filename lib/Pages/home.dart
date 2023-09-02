@@ -3,6 +3,8 @@
 import 'package:flutter/material.dart';
 import 'package:project_manager/classes.dart';
 import 'package:project_manager/Search/search_main.dart';
+import 'package:project_manager/Pages/projectInformationPage.dart';
+import 'package:project_manager/settingClasses.dart';
 
 class Home extends StatefulWidget {
   const Home({super.key});
@@ -21,6 +23,8 @@ class _HomeState extends State<Home> {
   var _controller = TextEditingController();
 
   int colorIndex = 100;
+  int choosenIndex = -1;
+  
 
   Future<List> getConfig() async {
     WidgetsFlutterBinding.ensureInitialized();
@@ -30,6 +34,7 @@ class _HomeState extends State<Home> {
         projectsList = projectsJSON['projects'];
       });
     }
+    ProgramSettings.instance.allPerojects = projectsList;
     print(projectsList.toString());
     print(projectsList[1]['name']);
     return projectsList;
@@ -105,12 +110,14 @@ class _HomeState extends State<Home> {
                       return Padding(
                         padding: const EdgeInsets.symmetric(
                             vertical: 1.0, horizontal: 4.0),
-                        child: ProjectCard(
-                          projectName: projectsList[index]['name'],
+                        child: ShowCard(
+                          Text: projectsList[index]['name'],
                           isTappedOn: () {
                             setState(() {
-                              choosenProject = projectsList[index];
-                              print(choosenProject.toString());
+                              choosenIndex = index;
+                              choosenProject = {};
+                              choosenProject = Map.of(projectsList[index]);
+                              // print(choosenProject.toString());
                             });
                           },
                         ),
@@ -121,59 +128,26 @@ class _HomeState extends State<Home> {
               ],
             ),
           ),
+
           Container(
-              // color: Colors.grey[200],
-              width: (choosenProject.length == 0
-                  ? 0
-                  : MediaQuery.of(context).size.width * (1 - screenPortion)),
-              height: MediaQuery.of(context).size.height,
-              color: Colors.grey[colorIndex],
-              child: Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Container(
-                  decoration: BoxDecoration(
-                    color: Colors.grey[colorIndex * 2]!,
-                    borderRadius: BorderRadius.all(
-                      Radius.circular(20),
-                    ),
-                    border: Border.all(
-                      color: Colors.grey[colorIndex * 2]!,
-                      width: 1,
-                    ),
-                  ),
-                  child: Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        TextButton.icon(
-                            onPressed: () => setState(() {
-                                  choosenProject = {};
-                                }),
-                            icon: Icon(
-                              Icons.close,
-                              color: Colors.black,
-                              size: 40,
-                            ),
-                            label: Text(
-                              'Close Project',
-                              style: TextStyle(
-                                color: Colors.black,
-                              ),
-                            )),
-                        SizedBox(
-                          height: 50,
-                        ),
-                        Expanded(
-                            child: ProjectInformation(
-                          choosenProject: choosenProject,
-                        )),
-                      ],
-                    ),
-                  ),
-                ),
-              )),
+            width: (choosenProject.length == 0
+                ? 0
+                : MediaQuery.of(context).size.width * (1 - screenPortion)),
+            height: MediaQuery.of(context).size.height,
+            color: Colors.grey[colorIndex],
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: ProjectInformationPage(
+                choosenProject: choosenProject,
+                choosenIndex: choosenIndex,
+                closeProject: () {
+                  setState(() {
+                    choosenProject = {};
+                  });
+                },
+              ),
+            )
+          ),
         ],
       )),
     );
