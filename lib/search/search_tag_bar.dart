@@ -1,7 +1,6 @@
 import 'dart:developer' as dev;
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:ordered_set/ordered_set.dart';
 
 class TagManager extends StatefulWidget {
   TagManager({super.key, this.tags = const []});
@@ -39,7 +38,7 @@ class SearchTagBar extends StatefulWidget {
 }
 
 class _SearchTagBarState extends State<SearchTagBar> {
-  final TextEditingController _controller = TextEditingController();
+  final TextEditingController textEditingController = TextEditingController();
   TagManager tagManager = TagManager();
 
   final List<String> tags = [];
@@ -50,7 +49,7 @@ class _SearchTagBarState extends State<SearchTagBar> {
     }
 
     if (event.logicalKey == LogicalKeyboardKey.arrowRight) {
-      if (_controller.text.isEmpty && tags.isNotEmpty) {
+      if (textEditingController.text.isEmpty && tags.isNotEmpty) {
         var mostRecentTag = tags.last;
 
         setState(() {
@@ -58,9 +57,9 @@ class _SearchTagBarState extends State<SearchTagBar> {
           tagManager = TagManager(tags: List.from(tags));
         });
 
-        _controller.text = mostRecentTag;
-        _controller.selection =
-            TextSelection.collapsed(offset: _controller.text.length);
+        textEditingController.text = mostRecentTag;
+        textEditingController.selection =
+            TextSelection.collapsed(offset: textEditingController.text.length);
       }
     }
   }
@@ -71,12 +70,14 @@ class _SearchTagBarState extends State<SearchTagBar> {
 
     tagManager = TagManager(tags: List.from(tags));
 
-    _controller.addListener(() {
-      if (_controller.text.isNotEmpty) {
-        var lastChar = _controller.text[_controller.text.length - 1];
+    textEditingController.addListener(() {
+      if (textEditingController.text.isNotEmpty) {
+        var lastChar =
+            textEditingController.text[textEditingController.text.length - 1];
 
         if (lastChar == ",") {
-          var text = _controller.text.substring(0, _controller.text.length - 1);
+          var text = textEditingController.text
+              .substring(0, textEditingController.text.length - 1);
 
           setState(() {
             if (tags.contains(text)) return;
@@ -84,11 +85,11 @@ class _SearchTagBarState extends State<SearchTagBar> {
             tagManager = TagManager(tags: List.from(tags));
           });
 
-          _controller.clear();
+          textEditingController.clear();
         }
       }
       if (widget.onChanged != null) {
-        widget.onChanged!(_controller.text, tags);
+        widget.onChanged!(textEditingController.text, tags);
       }
     });
   }
@@ -97,34 +98,30 @@ class _SearchTagBarState extends State<SearchTagBar> {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        Container(
-          // margin: const EdgeInsets.only(left: 100, right: 100),
-          child: KeyboardListener(
-            focusNode: FocusNode(),
-            onKeyEvent: handleArrowKeyPress,
-            child: TextField(
-                controller: _controller,
-                cursorColor: Colors.black,
-                decoration: InputDecoration(
-                  prefixIcon: Icon(Icons.search, color: Colors.black),
-                  // label: Text('Search', style: TextStyle(color: Colors.white),),
-                  filled: true,
-                  hoverColor: Colors.white,
-                  iconColor: Colors.red,
-                  fillColor: Colors.white,
-                  border: OutlineInputBorder(
-                      borderSide: BorderSide.none,
-                      borderRadius: BorderRadius.circular(50)),
-                  hintText: 'Search',
-                  hintStyle: TextStyle(
-                    color: Colors.black,
-                  ),
-                )),
-          ),
+        // margin: const EdgeInsets.only(left: 100, right: 100),
+        KeyboardListener(
+          focusNode: FocusNode(),
+          onKeyEvent: handleArrowKeyPress,
+          child: TextField(
+              controller: textEditingController,
+              cursorColor: Colors.black,
+              decoration: InputDecoration(
+                prefixIcon: Icon(Icons.search, color: Colors.black),
+                // label: Text('Search', style: TextStyle(color: Colors.white),),
+                filled: true,
+                hoverColor: Colors.white,
+                iconColor: Colors.red,
+                fillColor: Colors.white,
+                border: OutlineInputBorder(
+                    borderSide: BorderSide.none,
+                    borderRadius: BorderRadius.circular(50)),
+                hintText: 'Search',
+                hintStyle: TextStyle(
+                  color: Colors.black,
+                ),
+              )),
         ),
-        Container(
-            // margin: const EdgeInsets.only(left: 100, right: 100),
-            child: tagManager),
+        tagManager
       ],
     );
   }

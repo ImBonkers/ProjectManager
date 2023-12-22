@@ -1,64 +1,58 @@
 // ignore_for_file: unnecessary_null_comparison
 
+import 'dart:developer' as dev;
+
 import 'package:flutter/material.dart';
-import 'package:project_manager/classes.dart';
-import 'package:project_manager/Search/search_main.dart';
-import 'package:project_manager/Pages/projectInformationPage.dart';
-import 'package:project_manager/settingClasses.dart';
+import 'package:project_manager/Search/search_tag_bar.dart';
+import 'package:project_manager/Search/search_results.dart';
+
+import 'package:project_manager/Choreographer/Choreographer.dart';
 
 class Home extends StatefulWidget {
-  const Home({super.key});
+  const Home({Key? key}) : super(key: key);
 
   @override
   State<Home> createState() => _HomeState();
 }
 
 class _HomeState extends State<Home> {
-  var projectsList = [];
-
-  var choosenProject = {};
-
+  SearchResults searchResults = SearchResults();
+  var searchTextController = TextEditingController();
+  List<String> searchTags = [];
   double screenPortion = 0.6;
+  String searchQuery = "";
 
-  var _controller = TextEditingController();
-
-  int colorIndex = 100;
-  int choosenIndex = -1;
-  
-
-  Future<List> getConfig() async {
-    WidgetsFlutterBinding.ensureInitialized();
-    var projectsJSON = await Config.generalSettings;
-    if (mounted) {
-      setState(() {
-        projectsList = projectsJSON['projects'];
-      });
-    }
-    ProgramSettings.instance.allPerojects = projectsList;
-    print(projectsList.toString());
-    print(projectsList[1]['name']);
-    return projectsList;
+  void setSearchQuery(String query, List<String> tags) {
+    setState(() {
+      searchQuery = query;
+      searchResults = SearchResults(data: {
+        '[Project ID 1]': {'name': 'Project A'},
+        '[Project ID 2]': {'name': 'Project B'},
+        '[Project ID 3]': {'name': 'Project C'},
+        '[Project ID 4]': {'name': 'Project D'},
+        '[Project ID 5]': {'name': 'Project E'},
+        '[Project ID 6]': {'name': 'Project F'},
+        '[Project ID 7]': {'name': 'Project AA'},
+      }, query: query, tags: tags);
+    });
   }
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
-    getConfig();
   }
 
   @override
   Widget build(BuildContext context) {
+    Choreographer.register("Test", setSearchQuery);
     return Scaffold(
       body: Center(
           child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
           Container(
-            color: Colors.grey[colorIndex],
-            width: (choosenProject.length == 0
-                ? MediaQuery.of(context).size.width
-                : MediaQuery.of(context).size.width * (screenPortion)),
+            color: Colors.grey[0],
+            width: MediaQuery.of(context).size.width * (screenPortion),
             height: MediaQuery.of(context).size.height,
             child: Column(
               children: [
@@ -72,82 +66,17 @@ class _HomeState extends State<Home> {
                     ),
                   ),
                 ),
-                const Padding(
-                  padding: EdgeInsets.fromLTRB(20, 20, 20, 20),
-                  child: SearchTagBar(),
-
-                  // child: TextField(
-                  //   controller: _controller,
-                  //   onChanged: (value) {
-                  //     setState(() {
-                  //       print('press');
-                  //     });
-                  //   },
-                  //   cursorColor: Colors.black,
-                  //   keyboardType: TextInputType.text,
-                  //   style: TextStyle(fontSize: 30.0, color: Colors.black),
-
-                  // decoration: InputDecoration(
-                  //   prefixIcon: Icon(Icons.search, color: Colors.black),
-                  //   // label: Text('Search', style: TextStyle(color: Colors.white),),
-                  //   filled: true,
-                  //   iconColor: Colors.red,
-                  //   fillColor: Colors.white,
-                  //   border: OutlineInputBorder(
-                  //       borderSide: BorderSide.none,
-                  //       borderRadius: BorderRadius.circular(50)),
-                  //   hintText: 'Search',
-                  //   hintStyle: TextStyle(
-                  //     color: Colors.black,
-                  //   ),
-                  // )
-                  // ),
-                ),
-                Expanded(
-                  child: ListView.builder(
-                    itemCount: projectsList.length,
-                    itemBuilder: (context, index) {
-                      return Padding(
-                        padding: const EdgeInsets.symmetric(
-                            vertical: 1.0, horizontal: 4.0),
-                        child: ShowCard(
-                          Text: projectsList[index]['name'],
-                          isTappedOn: () {
-                            setState(() {
-                              choosenIndex = index;
-                              choosenProject = {};
-                              choosenProject = Map.of(projectsList[index]);
-                              // print(choosenProject.toString());
-                            });
-                          },
-                        ),
-                      );
-                    },
+                Padding(
+                  padding: const EdgeInsets.all(20),
+                  child: SearchTagBar(
+                    onChanged: setSearchQuery,
                   ),
                 ),
+                Expanded(child: searchResults)
               ],
             ),
           ),
-
-          Container(
-            width: (choosenProject.length == 0
-                ? 0
-                : MediaQuery.of(context).size.width * (1 - screenPortion)),
-            height: MediaQuery.of(context).size.height,
-            color: Colors.grey[colorIndex],
-            child: Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: ProjectInformationPage(
-                choosenProject: choosenProject,
-                choosenIndex: choosenIndex,
-                closeProject: () {
-                  setState(() {
-                    choosenProject = {};
-                  });
-                },
-              ),
-            )
-          ),
+          Container(),
         ],
       )),
     );

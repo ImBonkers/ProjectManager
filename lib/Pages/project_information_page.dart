@@ -1,4 +1,3 @@
-import 'package:project_manager/classes.dart';
 import 'package:flutter/material.dart';
 
 class ProjectInformationPage extends StatefulWidget {
@@ -6,13 +5,11 @@ class ProjectInformationPage extends StatefulWidget {
   var choosenProject;
   var choosenIndex;
 
-  ProjectInformationPage({
-    required this.closeProject, 
-    required this.choosenIndex,
-    required this.choosenProject, 
-    super.key
-  });
-
+  ProjectInformationPage(
+      {required this.closeProject,
+      required this.choosenIndex,
+      required this.choosenProject,
+      super.key});
 
   @override
   State<ProjectInformationPage> createState() => _ProjectInformationPageState();
@@ -28,7 +25,7 @@ class _ProjectInformationPageState extends State<ProjectInformationPage> {
           Radius.circular(20),
         ),
         border: Border.all(
-          color: Colors.white!,
+          color: Colors.white,
           width: 1,
         ),
         boxShadow: [
@@ -40,7 +37,6 @@ class _ProjectInformationPageState extends State<ProjectInformationPage> {
           ),
         ],
       ),
-
       child: Padding(
         padding: const EdgeInsets.all(8.0),
         child: Column(
@@ -62,15 +58,10 @@ class _ProjectInformationPageState extends State<ProjectInformationPage> {
                     color: Colors.black,
                   ),
                 )),
-                
             SizedBox(
               height: 50,
             ),
-            Expanded(
-              child: ListProjectInformation(
-                choosenIndex: widget.choosenIndex,
-                choosenProject: widget.choosenProject,
-            )),
+            Container(),
           ],
         ),
       ),
