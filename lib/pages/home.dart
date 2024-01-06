@@ -1,12 +1,10 @@
-// ignore_for_file: unnecessary_null_comparison
-
 import 'dart:developer' as dev;
 
 import 'package:flutter/material.dart';
-import 'package:project_manager/Search/search_tag_bar.dart';
-import 'package:project_manager/Search/search_results.dart';
+import 'package:project_manager/search/search_tag_bar.dart';
+import 'package:project_manager/search/search_results.dart';
 
-import 'package:project_manager/Choreographer/Choreographer.dart';
+import 'package:project_manager/choreographer/choreographer.dart';
 
 class Home extends StatefulWidget {
   const Home({Key? key}) : super(key: key);

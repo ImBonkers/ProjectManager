@@ -1,17 +1,43 @@
-import 'dart:io';
-import 'dart:developer' as dev;
+import 'package:project_manager/storage/file_map.dart';
 
 class StorageManager {
-  static Directory getRootDirectory() {
-    return Directory(Platform.resolvedExecutable).parent;
+  static Map<String, PersistentMap> db = {};
+
+  static PersistentMap? load(String relFilepath) {
+    if (!db.containsKey(relFilepath)) {
+      db[relFilepath] = PersistentMap(relFilepath);
+    }
+
+    return db[relFilepath];
   }
 
-  static void loadFile(String filepath) {
-    var root = getRootDirectory();
-    var file = File("${root.path}\\$filepath");
-    file.open(mode: FileMode.append).then((value) {
-      value.writeString("Hello World");
-      dev.log("File opened");
-    });
+  static void save(String relFilepath) {
+    if (!db.containsKey(relFilepath)) {
+      return;
+    }
+
+    db[relFilepath]!.save();
+  }
+
+  static PersistentMap? get(String relFilepath) {
+    return load(relFilepath);
+  }
+
+  static bool add(String relFilepath, String key, dynamic value) {
+    if (!db.containsKey(relFilepath)) {
+      return false;
+    }
+
+    db[relFilepath]!.add(key, value);
+    return true;
+  }
+
+  static bool remove(String relFilepath, String key) {
+    if (!db.containsKey(relFilepath)) {
+      return false;
+    }
+
+    db.remove(relFilepath);
+    return true;
   }
 }
